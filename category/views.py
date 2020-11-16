@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 # from rest_framework.response import Response
-# from django.http import HttpResponse
+from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Category, Item_List
 from .serializers import CategorySerializer, ItemSerializer
@@ -28,4 +29,16 @@ class ItemAPI(generics.ListCreateAPIView):
     queryset = Item_List.objects.all()
     serializer_class = ItemSerializer
 
-def 
+def get_count(request):
+    item = Item_List.objects.all()
+    item_list = []
+    for i in item:
+        serializer = ItemSerializer(i.item, many= False)
+        j = i.item
+        item_list.append(j)
+    # print(item_list)
+    item_list = list(set(item_list))
+    # print(item_list)
+    t = len(item_list)
+    # print(t)
+    return HttpResponse(t,status = status.HTTP_200_OK)
