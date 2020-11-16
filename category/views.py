@@ -27,3 +27,5 @@ class CategoryAPI(generics.ListCreateAPIView):
 class ItemAPI(generics.ListCreateAPIView):
     queryset = Item_List.objects.all()
     serializer_class = ItemSerializer
+
+def 

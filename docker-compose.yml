@@ -1,0 +1,28 @@
+FROM python:3.7.4
+ENV PYTHONUNBUFFERED=1
+RUN mkdir /shopping_list
+WORKDIR /shopping_list
+COPY requirements.txt /shopping_list
+RUN pip install -r requirements.txt
+COPY ./shoppng_list/
+RUN mkdir /category
+
+version: "3.8"
+   
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: python manage.py runserver 127.0.0.1:8000
+    volumes:
+      - .:/shopping_list
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
